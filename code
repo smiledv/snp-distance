@@ -1,0 +1,20 @@
+
+rm(list=ls())
+mapFileName="BMA.map"  # map file name
+nChromosome=29 # number of chromosomes
+
+library(data.table)
+setwd("C:/Users/Rayan/Desktop/") # working directory
+m=fread(mapFileName)
+for(i in 1:nChromosome){
+  m.temp=m[which(m$V1==i),]
+  #m.temp=as.matrix(m.temp)
+  chr.dist=as.vector(unlist(lapply(2:nrow(m.temp), function(j){m.temp[j,4]-m.temp[(j-1),4]})))
+  if(i==1){all.dist=NULL}
+  all.dist=c(all.dist, chr.dist)
+}
+
+mean(chr.dist) # average distance base pair
+sd(chr.dist) # standard deviation
+range(chr.dist) # max and min distance base pair
+sd(chr.dist)/sqrt(length(chr.dist)) # standard error
